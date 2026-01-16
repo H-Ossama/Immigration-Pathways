@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ArrowRight,
+  ArrowLeft,
   CheckCircle2,
   Globe2,
   GraduationCap,
@@ -13,6 +14,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { useTranslation } from '@/context/LanguageContext';
 
 const GlobeScene = dynamic(() => import('@/components/globe/GlobeScene').then(mod => mod.GlobeScene), {
   ssr: false,
@@ -24,6 +26,8 @@ const GlobeScene = dynamic(() => import('@/components/globe/GlobeScene').then(mo
 });
 
 export default function LandingPage() {
+  const { t, dir } = useTranslation();
+
   return (
     <div className="flex flex-col items-center overflow-x-hidden">
       {/* Hero Section */}
@@ -36,15 +40,15 @@ export default function LandingPage() {
 
         <div className="container px-4 md:px-6 relative z-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-            <div className="flex flex-col space-y-8 text-left max-w-2xl">
+            <div className={`flex flex-col space-y-8 ${dir === 'rtl' ? 'text-right' : 'text-left'} max-w-2xl`}>
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium transition-colors hover:bg-primary/10 w-fit">
                 <Sparkles className="h-4 w-4 text-primary animate-pulse" />
-                <span className="text-primary">New: AI-Powered Pathways 2.0</span>
+                <span className="text-primary">{t.hero.new}</span>
               </div>
 
-              <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl/none bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:from-white dark:to-white/60">
-                Find the best immigration pathways for <span className="text-primary italic relative">
-                  your profile
+              <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl/none bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:from-white dark:to-white/60">
+                {t.hero.title} <span className="text-primary italic relative whitespace-nowrap">
+                  {t.hero.profile}
                   <svg className="absolute -bottom-2 left-0 w-full" height="8" viewBox="0 0 100 8" preserveAspectRatio="none">
                     <path d="M0,5 Q50,0 100,5" stroke="currentColor" strokeWidth="2" fill="none" className="text-primary/40" />
                   </svg>
@@ -52,27 +56,27 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-muted-foreground text-lg md:text-xl/relaxed lg:text-2xl/relaxed max-w-[600px] font-medium">
-                Get personalized guidance for moving abroad. Whether you want to study, work, or start a business, our AI analyzes your profile against global opportunities.
+                {t.hero.description}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
                 <Button asChild size="lg" className="btn-premium h-14 px-10 text-lg">
                   <Link href="/start" className="flex items-center gap-2">
-                    Start Your Search <ArrowRight className="h-5 w-5" />
+                    {t.hero.startSearch} {dir === 'rtl' ? <ArrowLeft className="h-5 w-5" /> : <ArrowRight className="h-5 w-5" />}
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" className="h-14 px-10 text-lg rounded-full border-primary/20 hover:bg-primary/5 backdrop-blur-sm transition-all" asChild>
-                  <a href="#how-it-works">Learn More</a>
+                  <a href="#how-it-works">{t.hero.learnMore}</a>
                 </Button>
               </div>
 
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground/80 font-medium">
-                <div className="flex -space-x-2">
+              <div className="flex items-center space-x-2 rtl:space-x-reverse text-sm text-muted-foreground/80 font-medium">
+                <div className="flex -space-x-2 rtl:space-x-reverse">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="h-8 w-8 rounded-full border-2 border-background bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-[10px]" />
                   ))}
                 </div>
-                <span>Trusted by 5,000+ explorers worldwide</span>
+                <span>{t.hero.trusted}</span>
               </div>
             </div>
 
@@ -90,10 +94,10 @@ export default function LandingPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:from-white dark:to-white/60">
-              Three simple steps to <span className="text-primary italic">your future</span>
+              {t.howItWorks.title} <span className="text-primary italic">{t.howItWorks.future}</span>
             </h2>
             <p className="max-w-[700px] text-muted-foreground text-lg md:text-xl font-medium">
-              We've simplified the complex world of immigration into a clear, actionable process.
+              {t.howItWorks.description}
             </p>
           </div>
 
@@ -101,20 +105,20 @@ export default function LandingPage() {
             {[
               {
                 step: "1",
-                title: "Complete Your Profile",
-                description: "Tell us about your education, work history, and goals through our intuitive wizard.",
+                title: t.howItWorks.step1.title,
+                description: t.howItWorks.step1.description,
                 icon: <Briefcase className="h-6 w-6" />
               },
               {
                 step: "2",
-                title: "Connect AI Assistant",
-                description: "Provide your API key to securely process your profile. We never store your sensitive data.",
+                title: t.howItWorks.step2.title,
+                description: t.howItWorks.step2.description,
                 icon: <Zap className="h-6 w-6" />
               },
               {
                 step: "3",
-                title: "Receive Your Plan",
-                description: "Get 3-6 personalized pathways with official links, costs, and step-by-step guidance.",
+                title: t.howItWorks.step3.title,
+                description: t.howItWorks.step3.description,
                 icon: <Sparkles className="h-6 w-6" />
               }
             ].map((item, i) => (
@@ -139,21 +143,16 @@ export default function LandingPage() {
       <section className="w-full py-24">
         <div className="container px-4 md:px-6">
           <div className="grid gap-16 lg:grid-cols-2 items-center">
-            <div className="space-y-8">
+            <div className={`space-y-8 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}>
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                Why trust our <span className="text-primary underline underline-offset-8 decoration-primary/30">AI guidance?</span>
+                {t.features.title} <span className="text-primary underline underline-offset-8 decoration-primary/30">{t.features.aiGuidance}</span>
               </h2>
               <p className="text-muted-foreground text-xl leading-relaxed font-medium">
-                Immigration is one of the biggest life decisions you'll make. Our tool provides clarity in a world of complex regulations.
+                {t.features.description}
               </p>
 
               <div className="grid gap-6">
-                {[
-                  "Analyzes 100+ global immigration pathways simultaneously",
-                  "Direct links to official government application portals",
-                  "Real-time estimates for costs and processing times",
-                  "100% data privacy with local API key storage"
-                ].map((feature, i) => (
+                {(t.features.list as string[]).map((feature, i) => (
                   <div key={i} className="flex items-center gap-4 group">
                     <div className="h-8 w-8 rounded-full bg-green-500/10 flex items-center justify-center shrink-0 group-hover:bg-green-500 group-hover:text-white transition-colors duration-300">
                       <CheckCircle2 className="h-5 w-5 text-green-500 group-hover:text-white" />
@@ -167,10 +166,10 @@ export default function LandingPage() {
             <div className="grid grid-cols-2 gap-6 relative">
               <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full -z-10" />
               {[
-                { label: "Study Abroad", icon: <GraduationCap />, color: "bg-blue-500" },
-                { label: "Work Visas", icon: <Briefcase />, color: "bg-emerald-500" },
-                { label: "Digital Nomads", icon: <Globe2 />, color: "bg-indigo-500" },
-                { label: "Startups", icon: <Zap />, color: "bg-amber-500" }
+                { label: t.features.categories.study, icon: <GraduationCap />, color: "bg-blue-500" },
+                { label: t.features.categories.work, icon: <Briefcase />, color: "bg-emerald-500" },
+                { label: t.features.categories.nomad, icon: <Globe2 />, color: "bg-indigo-500" },
+                { label: t.features.categories.startups, icon: <Zap />, color: "bg-amber-500" }
               ].map((item, i) => (
                 <div key={i} className="glass dark:glass-dark p-8 rounded-3xl flex flex-col items-center text-center space-y-4 hover:scale-105 transition-all duration-300 group">
                   <div className={`h-16 w-16 rounded-2xl ${item.color}/10 flex items-center justify-center text-white p-3 group-hover:scale-110 transition-transform`}>
@@ -195,17 +194,17 @@ export default function LandingPage() {
 
             <div className="relative z-10 space-y-8 max-w-3xl mx-auto">
               <h2 className="text-4xl font-bold tracking-tight sm:text-6xl text-gradient">
-                Ready to find your way?
+                {t.cta.title}
               </h2>
               <p className="text-muted-foreground text-xl md:text-2xl font-medium">
-                Start your journey today and discover the path that's right for you with our AI-powered guidance.
+                {t.cta.description}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
                 <Button asChild size="lg" className="btn-premium h-16 px-12 text-xl rounded-full">
-                  <Link href="/start">Get Started Now</Link>
+                  <Link href="/start">{t.cta.button}</Link>
                 </Button>
                 <Link href="/about" className="text-lg font-bold hover:underline underline-offset-8 decoration-primary/30 py-2">
-                  View Success Stories
+                  {t.cta.successStories}
                 </Link>
               </div>
             </div>
