@@ -228,6 +228,24 @@ export const translations = {
                 actions: "Recommended Actions",
                 bestFor: "Best For"
             }
+        },
+        privacyPage: {
+            title: "Privacy Policy",
+            lastUpdated: "Last updated:",
+            introTitle: "Your Privacy is Our Priority",
+            introText: "Immigration Pathways is designed with a privacy-first approach. We believe that your personal data and credentials should remain under your control at all times.",
+            localKeyTitle: "Local API Key Storage",
+            localKeyText: "Your AI API key is stored only in your browser's local storage. We never send it to our servers.",
+            noDbTitle: "No Database Storage",
+            noDbText: "We do not use a database to store your personal profile information. Everything stays in your browser.",
+            noTrackTitle: "No Tracking",
+            noTrackText: "We do not track your specific searches or the pathways generated. Your session is private.",
+            secureCallsTitle: "Secure AI Calls",
+            secureCallsText: "API calls are made using your key directly to the AI provider. We act only as a bridge.",
+            infoSectionTitle: "Information We Collect",
+            infoSectionText: "The profile information you enter in the wizard (nationality, age, work experience, etc.) is processed only to generate the AI prompt. It is not permanently stored anywhere outside of your local browser session.",
+            aiUsageTitle: "AI Usage",
+            aiUsageText: "When you use this application, your data is sent to the AI provider (e.g., OpenAI) to generate your pathways. By using your own API key, you are subject to that provider's privacy policy and terms of service."
         }
     },
     fr: {
@@ -459,6 +477,24 @@ export const translations = {
                 actions: "Actions recommandées",
                 bestFor: "Idéal pour"
             }
+        },
+        privacyPage: {
+            title: "Politique de confidentialité",
+            lastUpdated: "Dernière mise à jour :",
+            introTitle: "Votre confidentialité est notre priorité",
+            introText: "Immigration Pathways est conçu avec une approche axée sur la confidentialité. Nous croyons que vos données personnelles et vos identifiants doivent rester sous votre contrôle à tout moment.",
+            localKeyTitle: "Stockage local de la clé API",
+            localKeyText: "Votre clé API IA est stockée uniquement dans le stockage local de votre navigateur. Nous ne l'envoyons jamais à nos serveurs.",
+            noDbTitle: "Pas de base de données",
+            noDbText: "Nous n'utilisons pas de base de données pour stocker vos informations de profil. Tout reste dans votre navigateur.",
+            noTrackTitle: "Pas de suivi",
+            noTrackText: "Nous ne suivons pas vos recherches spécifiques ni les parcours générés. Votre session est privée.",
+            secureCallsTitle: "Appels IA sécurisés",
+            secureCallsText: "Les appels API sont effectués en utilisant votre clé directement vers le fournisseur d'IA. Nous agissons uniquement comme un pont.",
+            infoSectionTitle: "Informations que nous collectons",
+            infoSectionText: "Les informations de profil que vous saisissez dans l'assistant (nationalité, âge, expérience professionnelle, etc.) sont traitées uniquement pour générer l'invite IA. Elles ne sont stockées nulle part en dehors de votre session locale.",
+            aiUsageTitle: "Utilisation de l'IA",
+            aiUsageText: "Lorsque vous utilisez cette application, vos données sont envoyées au fournisseur d'IA (par exemple, OpenAI) pour générer vos parcours. En utilisant votre propre clé API, vous êtes soumis à la politique de confidentialité et aux conditions d'utilisation de ce fournisseur."
         }
     },
     ar: {
@@ -690,6 +726,24 @@ export const translations = {
                 actions: "الإجراءات الموصى بها",
                 bestFor: "الأفضل لـ"
             }
+        },
+        privacyPage: {
+            title: "سياسة الخصوصية",
+            lastUpdated: "آخر تحديث:",
+            introTitle: "خصوصيتك هي أولويتنا",
+            introText: "تم تصميم مسارات الهجرة بنهج يركز على الخصوصية أولاً. نحن نؤمن بأن بياناتك الشخصية وبيانات اعتمادك يجب أن تظل تحت سيطرتك في جميع الأوقات.",
+            localKeyTitle: "تخزين مفتاح API محليًا",
+            localKeyText: "يتم تخزين مفتاح API الخاص بالذكاء الاصطناعي في التخزين المحلي لمتصفحك فقط. نحن لا نرسله أبدًا إلى خوادمنا.",
+            noDbTitle: "لا يوجد تخزين في قاعدة بيانات",
+            noDbText: "لا نستخدم قاعدة بيانات لتخزين معلومات ملفك الشخصي. كل شيء يبقى في متصفحك.",
+            noTrackTitle: "لا تتبع",
+            noTrackText: "نحن لا نتتبع عمليات بحثك المحددة أو المسارات التي تم إنشاؤها. جلستك خاصة.",
+            secureCallsTitle: "مكالمات ذكاء اصطناعي آمنة",
+            secureCallsText: "تتم مكالمات API باستخدام مفتاحك مباشرة إلى مزود الذكاء الاصطناعي. نحن نعمل فقط كجسر.",
+            infoSectionTitle: "المعلومات التي نجمعها",
+            infoSectionText: "تتم معالجة معلومات الملف الشخصي التي تدخلها في المعالج (الجنسية، العمر، خبرة العمل، إلخ) فقط لإنشاء مطالبة الذكاء الاصطناعي. لا يتم تخزينها بشكل دائم في أي مكان خارج جلسة المتصفح المحلي الخاص بك.",
+            aiUsageTitle: "استخدام الذكاء الاصطناعي",
+            aiUsageText: "عند استخدام هذا التطبيق، يتم إرسال بياناتك إلى مزود الذكاء الاصطناعي (مثل OpenAI) لإنشاء مساراتك. باستخدام مفتاح API الخاص بك، فإنك تخضع لسياسة الخصوصية وشروط الخدمة الخاصة بذلك المزود."
         }
-    },
+    }
 };

@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Compass, Globe, Github, Twitter } from 'lucide-react';
+import { Compass, Globe, Github, Linkedin } from 'lucide-react';
 import { useTranslation } from '@/context/LanguageContext';
 
 export function Footer() {
@@ -21,10 +21,10 @@ export function Footer() {
                             {t.footer.description}
                         </p>
                         <div className={`flex gap-4 ${dir === 'rtl' ? 'flex-row-reverse' : ''}`}>
-                            <Link href="#" className="h-10 w-10 rounded-full bg-primary/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
-                                <Twitter className="h-5 w-5" />
+                            <Link href="https://www.linkedin.com/in/h-oussama" target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-full bg-primary/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                                <Linkedin className="h-5 w-5" />
                             </Link>
-                            <Link href="#" className="h-10 w-10 rounded-full bg-primary/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                            <Link href="https://github.com/H-Ossama" target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-full bg-primary/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
                                 <Github className="h-5 w-5" />
                             </Link>
                         </div>
