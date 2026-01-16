@@ -246,6 +246,18 @@ export const translations = {
             infoSectionText: "The profile information you enter in the wizard (nationality, age, work experience, etc.) is processed only to generate the AI prompt. It is not permanently stored anywhere outside of your local browser session.",
             aiUsageTitle: "AI Usage",
             aiUsageText: "When you use this application, your data is sent to the AI provider (e.g., OpenAI) to generate your pathways. By using your own API key, you are subject to that provider's privacy policy and terms of service."
+        },
+        aboutPage: {
+            title: "About Immigration Pathways",
+            description: "Empowering your global journey with AI-driven insights.",
+            missionTitle: "Our Mission",
+            missionText: "The world is full of opportunities, but navigating immigration laws and pathways can be overwhelming. Immigration Pathways was built to bridge the gap between complex government regulations and individuals seeking a better future abroad.",
+            howItWorksTitle: "How it works",
+            howItWorksText: "Our tool uses advanced AI to analyze your profile—background, education, skills, and goals—and cross-references them with known immigration programs worldwide. By providing your own API key, you get access to state-of-the-art analysis while maintaining full control over your credentials.",
+            disclaimerTitle: "Disclaimer",
+            disclaimerText: "Not Legal Advice: This application provides general information and guidance based on available data. It does not constitute legal advice. Immigration laws are subject to change, and we strongly recommend consulting with authorized immigration consultants or legal professionals before making any firm decisions. Always refer to official government websites for the most up-to-date and accurate information.",
+            openTitle: "Open & Transparent",
+            openText: "We believe in transparency. This tool doesn't hide information behind paywalls or complex agreements. It is a free-to-use assistant for anyone willing to take the first step towards a new life."
         }
     },
     fr: {
@@ -495,6 +507,18 @@ export const translations = {
             infoSectionText: "Les informations de profil que vous saisissez dans l'assistant (nationalité, âge, expérience professionnelle, etc.) sont traitées uniquement pour générer l'invite IA. Elles ne sont stockées nulle part en dehors de votre session locale.",
             aiUsageTitle: "Utilisation de l'IA",
             aiUsageText: "Lorsque vous utilisez cette application, vos données sont envoyées au fournisseur d'IA (par exemple, OpenAI) pour générer vos parcours. En utilisant votre propre clé API, vous êtes soumis à la politique de confidentialité et aux conditions d'utilisation de ce fournisseur."
+        },
+        aboutPage: {
+            title: "À propos d'Immigration Pathways",
+            description: "Autonomiser votre parcours mondial grâce à des informations basées sur l'IA.",
+            missionTitle: "Notre mission",
+            missionText: "Le monde regorge d'opportunités, mais s'orienter dans les lois et les voies d'immigration peut être accablant. Immigration Pathways a été créé pour combler le fossé entre les réglementations gouvernementales complexes et les personnes à la recherche d'un avenir meilleur à l'étranger.",
+            howItWorksTitle: "Comment ça marche",
+            howItWorksText: "Notre outil utilise une IA avancée pour analyser votre profil (antécédents, éducation, compétences et objectifs) et les recouper avec les programmes d'immigration connus dans le monde entier. En fournissant votre propre clé API, vous accédez à une analyse de pointe tout en gardant le contrôle total de vos identifiants.",
+            disclaimerTitle: "Avis de non-responsabilité",
+            disclaimerText: "Pas de conseil juridique : Cette application fournit des informations générales et des conseils basés sur les données disponibles. Elle ne constitue pas un avis juridique. Les lois sur l'immigration sont susceptibles de changer et nous recommandons vivement de consulter des consultants en immigration agréés ou des professionnels du droit avant de prendre des décisions fermes. Référez-vous toujours aux sites web officiels du gouvernement pour obtenir les informations les plus récentes et les plus précises.",
+            openTitle: "Ouvert et transparent",
+            openText: "Nous croyons en la transparence. Cet outil ne cache pas d'informations derrière des murs payants ou des accords complexes. C'est un assistant gratuit pour toute personne prête à faire le premier pas vers une nouvelle vie."
         }
     },
     ar: {
@@ -744,6 +768,18 @@ export const translations = {
             infoSectionText: "تتم معالجة معلومات الملف الشخصي التي تدخلها في المعالج (الجنسية، العمر، خبرة العمل، إلخ) فقط لإنشاء مطالبة الذكاء الاصطناعي. لا يتم تخزينها بشكل دائم في أي مكان خارج جلسة المتصفح المحلي الخاص بك.",
             aiUsageTitle: "استخدام الذكاء الاصطناعي",
             aiUsageText: "عند استخدام هذا التطبيق، يتم إرسال بياناتك إلى مزود الذكاء الاصطناعي (مثل OpenAI) لإنشاء مساراتك. باستخدام مفتاح API الخاص بك، فإنك تخضع لسياسة الخصوصية وشروط الخدمة الخاصة بذلك المزود."
+        },
+        aboutPage: {
+            title: "عن مسارات الهجرة",
+            description: "تمكين رحلتك العالمية من خلال رؤى مدفوعة بالذكاء الاصطناعي.",
+            missionTitle: "مهمتنا",
+            missionText: "العالم مليء بالفرص، لكن التنقل في قوانين ومسارات الهجرة يمكن أن يكون مرهقًا. تم بناء مسارات الهجرة لسد الفجوة بين اللوائح الحكومية المعقدة والأفراد الباحثين عن مستقبل أفضل في الخارج.",
+            howItWorksTitle: "كيف يعمل",
+            howItWorksText: "تستخدم أداتنا ذكاءً اصطناعيًا متقدمًا لتحليل ملفك الشخصي - الخلفية والتعليم والمهارات والأهداف - ومقارنتها ببرامج الهجرة المعروفة في جميع أنحاء العالم. من خلال توفير مفتاح API الخاص بك، يمكنك الوصول إلى أحدث التحليلات مع الحفاظ على التحكم الكامل في بيانات اعتمادك.",
+            disclaimerTitle: "إخلاء المسؤولية",
+            disclaimerText: "ليست نصيحة قانونية: يوفر هذا التطبيق معلومات عامة وإرشادات بناءً على البيانات المتاحة. ولا يشكل نصيحة قانونية. تخضع قوانين الهجرة للتغيير، ونوصي بشدة بالتشاور مع مستشاري الهجرة المعتمدين أو المهنيين القانونيين قبل اتخاذ أي قرارات حازمة. ارجع دائمًا إلى المواقع الحكومية الرسمية للحصول على أحدث المعلومات وأكثرها دقة.",
+            openTitle: "مفتوح وشفاف",
+            openText: "نحن نؤمن بالشفافية. لا تخفي هذه الأداة المعلومات خلف جدران الدفع أو الاتفاقيات المعقدة. إنه مساعد مجاني للاستخدام لأي شخص يرغب في اتخاذ الخطوة الأولى نحو حياة جديدة."
         }
     }
 };

@@ -1,56 +1,54 @@
+"use client";
+
 import { Info, HelpCircle, AlertTriangle, Lightbulb } from 'lucide-react';
+import { useTranslation } from "@/context/LanguageContext";
+import { cn } from "@/lib/utils";
 
 export default function AboutPage() {
+    const { t, dir } = useTranslation();
+
     return (
         <div className="container py-12 md:py-24">
-            <div className="max-w-3xl mx-auto space-y-8">
-                <div className="space-y-2 text-center md:text-left">
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl border-none">About Immigration Pathways</h1>
-                    <p className="text-muted-foreground md:text-xl">Empowering your global journey with AI-driven insights.</p>
+            <div className={cn("max-w-3xl mx-auto space-y-8", dir === 'rtl' ? 'text-right' : 'text-left')}>
+                <div className={cn("space-y-2 text-center", dir === 'rtl' ? 'md:text-right' : 'md:text-left')}>
+                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl border-none">{t.aboutPage.title}</h1>
+                    <p className="text-muted-foreground md:text-xl">{t.aboutPage.description}</p>
                 </div>
 
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <h2 className={cn("text-2xl font-bold flex items-center gap-2", dir === 'rtl' ? 'flex-row-reverse justify-end' : '')}>
                         <Lightbulb className="h-6 w-6 text-yellow-500" />
-                        Our Mission
+                        {t.aboutPage.missionTitle}
                     </h2>
                     <p>
-                        The world is full of opportunities, but navigating immigration laws and pathways can be overwhelming.
-                        Immigration Pathways was built to bridge the gap between complex government regulations and
-                        individuals seeking a better future abroad.
+                        {t.aboutPage.missionText}
                     </p>
                 </section>
 
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-bold flex items-center gap-2">
+                    <h2 className={cn("text-2xl font-bold flex items-center gap-2", dir === 'rtl' ? 'flex-row-reverse justify-end' : '')}>
                         <HelpCircle className="h-6 w-6 text-blue-500" />
-                        How it works
+                        {t.aboutPage.howItWorksTitle}
                     </h2>
                     <p>
-                        Our tool uses advanced AI to analyze your profile—background, education, skills, and goals—and
-                        cross-references them with known immigration programs worldwide. By providing your own API key,
-                        you get access to state-of-the-art analysis while maintaining full control over your credentials.
+                        {t.aboutPage.howItWorksText}
                     </p>
                 </section>
 
                 <section className="p-6 border-2 border-amber-200 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-900 rounded-xl space-y-3">
-                    <h2 className="text-xl font-bold flex items-center gap-2 text-amber-800 dark:text-amber-400">
+                    <h2 className={cn("text-xl font-bold flex items-center gap-2 text-amber-800 dark:text-amber-400", dir === 'rtl' ? 'flex-row-reverse justify-end' : '')}>
                         <AlertTriangle className="h-5 w-5" />
-                        Disclaimer
+                        {t.aboutPage.disclaimerTitle}
                     </h2>
                     <p className="text-sm text-amber-800 dark:text-amber-400 leading-relaxed">
-                        <strong>Not Legal Advice:</strong> This application provides general information and guidance based on available data.
-                        It does not constitute legal advice. Immigration laws are subject to change, and we strongly recommend
-                        consulting with authorized immigration consultants or legal professionals before making any firm decisions.
-                        Always refer to official government websites for the most up-to-date and accurate information.
+                        {t.aboutPage.disclaimerText}
                     </p>
                 </section>
 
                 <section className="space-y-4">
-                    <h2 className="text-2xl font-bold">Open & Transparent</h2>
+                    <h2 className="text-2xl font-bold">{t.aboutPage.openTitle}</h2>
                     <p>
-                        We believe in transparency. This tool doesn't hide information behind paywalls or complex agreements.
-                        It is a free-to-use assistant for anyone willing to take the first step towards a new life.
+                        {t.aboutPage.openText}
                     </p>
                 </section>
             </div>
