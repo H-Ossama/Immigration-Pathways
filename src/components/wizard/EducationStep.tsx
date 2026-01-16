@@ -16,10 +16,21 @@ import { ArrowLeft } from "lucide-react";
 import { z } from "zod";
 import { EDUCATION_LEVELS } from "@/lib/constants";
 
+import { useTranslation } from "@/context/LanguageContext";
+import { cn } from "@/lib/utils";
+
 type EducationValues = z.infer<typeof educationSchema>;
 
 export function EducationStep() {
     const { formData, setFormData, nextStep, prevStep } = useFormStore();
+    const { t, dir } = useTranslation();
+
+    const EDUCATION_LABELS: Record<string, string> = {
+        'High School': t.wizard.education.levels.highSchool,
+        'Bachelor': t.wizard.education.levels.bachelor,
+        'Master': t.wizard.education.levels.master,
+        'PhD': t.wizard.education.levels.phd,
+    };
 
     const {
         register,
@@ -45,68 +56,75 @@ export function EducationStep() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className={cn("space-y-6", dir === 'rtl' ? 'text-right' : 'text-left')}>
+            <div className="space-y-6">
                 <div className="space-y-2">
-                    <Label htmlFor="educationLevel">Highest Education Level</Label>
+                    <Label htmlFor="educationLevel" className="font-bold">{t.wizard.education.level}</Label>
                     <Select
                         onValueChange={(val: any) => setValue("educationLevel", val, { shouldValidate: true })}
                         defaultValue={educationLevel}
                     >
-                        <SelectTrigger id="educationLevel" className={errors.educationLevel ? "border-destructive" : ""}>
-                            <SelectValue placeholder="Select your education level" />
+                        <SelectTrigger id="educationLevel" className={cn(errors.educationLevel ? "border-destructive" : "", "rounded-xl py-6 font-medium")}>
+                            <SelectValue placeholder={t.wizard.education.level} />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="rounded-2xl border-border/50 shadow-2xl">
                             {EDUCATION_LEVELS.map((level) => (
-                                <SelectItem key={level} value={level}>
-                                    {level}
+                                <SelectItem key={level} value={level} className="rounded-lg font-medium p-3">
+                                    {EDUCATION_LABELS[level]}
                                 </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                     {errors.educationLevel && (
-                        <p className="text-sm text-destructive font-medium">{errors.educationLevel.message}</p>
+                        <p className="text-sm text-destructive font-black tracking-tight">{errors.educationLevel.message}</p>
                     )}
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="fieldOfStudy">Field of Study</Label>
+                    <Label htmlFor="fieldOfStudy" className="font-bold">{t.wizard.education.field}</Label>
                     <Input
                         id="fieldOfStudy"
-                        placeholder="e.g. Computer Science, Medicine, Law"
+                        placeholder={t.wizard.education.fieldPlaceholder}
                         {...register("fieldOfStudy")}
-                        className={errors.fieldOfStudy ? "border-destructive" : ""}
+                        className={cn(errors.fieldOfStudy ? "border-destructive" : "", "rounded-xl py-6 font-medium")}
                     />
                     {errors.fieldOfStudy && (
-                        <p className="text-sm text-destructive font-medium">{errors.fieldOfStudy.message}</p>
+                        <p className="text-sm text-destructive font-black tracking-tight">{errors.fieldOfStudy.message}</p>
                     )}
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-6 md:grid-cols-2">
                     <div className="space-y-2">
-                        <Label htmlFor="gpa">GPA or Academic Grade (Optional)</Label>
+                        <Label htmlFor="gpa" className="font-bold">{t.wizard.education.gpa}</Label>
                         <Input
                             id="gpa"
-                            placeholder="e.g. 3.5/4.0, 15/20"
+                            placeholder="e.g. 3.5/4.0"
                             {...register("gpa")}
+                            className="rounded-xl py-6 font-medium"
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="certificates">Relevant Certificates (Optional)</Label>
+                        <Label htmlFor="certificates" className="font-bold">
+                            {dir === 'rtl' ? 'الشهادات ذات الصلة (اختياري)' : 'Relevant Certificates (Optional)'}
+                        </Label>
                         <Input
                             id="certificates"
                             placeholder="e.g. AWS Certified, IELTS 7.5"
                             {...register("certificates")}
+                            className="rounded-xl py-6 font-medium"
                         />
                     </div>
                 </div>
             </div>
 
-            <div className="flex justify-between pt-4">
-                <Button type="button" variant="outline" onClick={prevStep}>
-                    <ArrowLeft className="mr-2 h-4 w-4" /> Back
+            <div className={cn("flex justify-between pt-8 items-center", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                <Button type="button" variant="ghost" onClick={prevStep} className="rounded-xl px-6 font-bold hover:bg-primary/5">
+                    {dir === 'rtl' ? <ArrowLeft className="ml-2 h-4 w-4 rotate-180" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
+                    {t.wizard.back}
                 </Button>
-                <Button type="submit">Next Step</Button>
+                <Button type="submit" className="rounded-2xl px-12 py-7 font-black text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-transform">
+                    {t.wizard.next}
+                </Button>
             </div>
         </form>
     );

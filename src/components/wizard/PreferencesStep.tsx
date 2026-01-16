@@ -17,10 +17,25 @@ import { z } from "zod";
 import { COUNTRIES, BUDGET_RANGES, TIMEFRAMES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
+import { useTranslation } from "@/context/LanguageContext";
+
 type PreferencesValues = z.infer<typeof preferencesSchema>;
 
 export function PreferencesStep() {
     const { formData, setFormData, nextStep, prevStep } = useFormStore();
+    const { t, dir } = useTranslation();
+
+    const BUDGET_LABELS: Record<string, string> = {
+        'Low': t.wizard.preferences.budgetLabels.low,
+        'Medium': t.wizard.preferences.budgetLabels.medium,
+        'High': t.wizard.preferences.budgetLabels.high,
+    };
+
+    const TIMEFRAME_LABELS: Record<string, string> = {
+        'ASAP': t.wizard.preferences.timeframeLabels.asap,
+        '6 months': t.wizard.preferences.timeframeLabels.sixMonths,
+        '1 year+': t.wizard.preferences.timeframeLabels.oneYear,
+    };
 
     const {
         handleSubmit,
@@ -55,99 +70,105 @@ export function PreferencesStep() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={handleSubmit(onSubmit)} className={cn("space-y-8", dir === 'rtl' ? 'text-right' : 'text-left')}>
             <div className="space-y-4">
-                <Label className="text-base flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-primary" /> Target Countries (Select Multiple)
+                <Label className={cn("text-base flex items-center gap-2 font-bold", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                    <MapPin className="h-5 w-5 text-primary" /> {t.wizard.preferences.countries}
                 </Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[200px] overflow-y-auto p-4 border rounded-lg bg-muted/20">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-h-[180px] overflow-y-auto p-6 border border-border/50 rounded-2xl bg-muted/20 custom-scrollbar">
                     {COUNTRIES.map((country) => (
-                        <div key={country} className="flex items-center space-x-2">
+                        <div key={country} className={cn("flex items-center space-x-3 p-2 rounded-lg hover:bg-primary/5 transition-colors cursor-pointer", dir === 'rtl' ? 'space-x-reverse' : '')}>
                             <Checkbox
                                 id={`country-${country}`}
                                 checked={selectedCountries.includes(country)}
                                 onCheckedChange={() => toggleCountry(country)}
                             />
-                            <label htmlFor={`country-${country}`} className="text-sm font-medium cursor-pointer">
+                            <label htmlFor={`country-${country}`} className="text-sm font-bold cursor-pointer flex-1">
                                 {country}
                             </label>
                         </div>
                     ))}
                 </div>
                 {errors.targetCountries && (
-                    <p className="text-sm text-destructive">{errors.targetCountries.message}</p>
+                    <p className="text-sm text-destructive font-black">{errors.targetCountries.message}</p>
                 )}
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-8 md:grid-cols-2">
                 <div className="space-y-4">
-                    <Label className="text-base flex items-center gap-2">
-                        <Coins className="h-4 w-4 text-primary" /> Budget Range
+                    <Label className={cn("text-base flex items-center gap-2 font-bold", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                        <Coins className="h-5 w-5 text-primary" /> {t.wizard.preferences.budget}
                     </Label>
-                    <div className="grid grid-cols-3 gap-2">
-                        {BUDGET_RANGES.map((b) => (
+                    <div className={cn("grid grid-cols-3 gap-3", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                        {(Object.keys(BUDGET_LABELS) as Array<keyof typeof BUDGET_LABELS>).map((b) => (
                             <Button
                                 key={b}
                                 type="button"
                                 variant={selectedBudget === b ? "default" : "outline"}
-                                className="w-full"
-                                onClick={() => setValue("budget", b, { shouldValidate: true })}
+                                className={cn(
+                                    "w-full rounded-xl py-6 font-bold transition-all",
+                                    selectedBudget === b ? "shadow-lg shadow-primary/20 scale-105" : "hover:bg-primary/5"
+                                )}
+                                onClick={() => setValue("budget", b as any, { shouldValidate: true })}
                             >
-                                {b}
+                                {BUDGET_LABELS[b]}
                             </Button>
                         ))}
                     </div>
                     {errors.budget && (
-                        <p className="text-sm text-destructive">{errors.budget.message}</p>
+                        <p className="text-sm text-destructive font-black">{errors.budget.message}</p>
                     )}
                 </div>
 
                 <div className="space-y-4">
-                    <Label className="text-base flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-primary" /> Timeframe
+                    <Label className={cn("text-base flex items-center gap-2 font-bold", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                        <Clock className="h-5 w-5 text-primary" /> {t.wizard.preferences.timeframe}
                     </Label>
                     <Select
                         onValueChange={(val: any) => setValue("timeframe", val, { shouldValidate: true })}
                         defaultValue={selectedTimeframe}
                     >
-                        <SelectTrigger>
-                            <SelectValue placeholder="When do you want to move?" />
+                        <SelectTrigger className="rounded-xl py-6 font-bold border-border/50">
+                            <SelectValue placeholder={t.wizard.preferences.timeframe} />
                         </SelectTrigger>
-                        <SelectContent>
-                            {TIMEFRAMES.map((t) => (
-                                <SelectItem key={t} value={t}>
-                                    {t}
+                        <SelectContent className="rounded-2xl border-border/50 shadow-2xl">
+                            {TIMEFRAMES.map((tf) => (
+                                <SelectItem key={tf} value={tf} className="rounded-lg font-medium p-3">
+                                    {TIMEFRAME_LABELS[tf]}
                                 </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                     {errors.timeframe && (
-                        <p className="text-sm text-destructive">{errors.timeframe.message}</p>
+                        <p className="text-sm text-destructive font-black">{errors.timeframe.message}</p>
                     )}
                 </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 border rounded-lg bg-primary/5">
-                <div className="space-y-0.5">
-                    <Label className="text-base flex items-center gap-2">
-                        <Languages className="h-4 w-4 text-primary" /> Willing to learn a new language?
+            <div className={cn("flex items-center justify-between p-6 border border-primary/10 rounded-[1.5rem] bg-primary/5 backdrop-blur-md", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                <div className={cn("space-y-1", dir === 'rtl' ? 'text-right' : 'text-left')}>
+                    <Label className={cn("text-base flex items-center gap-2 font-black", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                        <Languages className="h-5 w-5 text-primary" /> {t.wizard.preferences.willingToLearn}
                     </Label>
-                    <p className="text-sm text-muted-foreground">
-                        This expands your opportunities in countries like Germany, France, or Japan.
+                    <p className="text-xs font-medium text-muted-foreground leading-relaxed max-w-sm">
+                        {t.wizard.preferences.languageNote}
                     </p>
                 </div>
                 <Checkbox
-                    className="h-6 w-6"
+                    className="h-8 w-8 rounded-lg border-2 border-primary/20 bg-background"
                     checked={willingToLearn}
                     onCheckedChange={(checked) => setValue("willingToLearnLanguage", !!checked)}
                 />
             </div>
 
-            <div className="flex justify-between pt-4">
-                <Button type="button" variant="outline" onClick={prevStep}>
-                    <ArrowLeft className="mr-2 h-4 w-4" /> Back
+            <div className={cn("flex justify-between pt-8 items-center", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+                <Button type="button" variant="ghost" onClick={prevStep} className="rounded-xl px-6 font-bold hover:bg-primary/5">
+                    {dir === 'rtl' ? <ArrowLeft className="ml-2 h-4 w-4 rotate-180" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
+                    {t.wizard.back}
                 </Button>
-                <Button type="submit">Next Step</Button>
+                <Button type="submit" className="rounded-2xl px-12 py-7 font-black text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-transform">
+                    {t.wizard.next}
+                </Button>
             </div>
         </form>
     );

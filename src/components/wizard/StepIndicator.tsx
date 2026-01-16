@@ -4,33 +4,40 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const STEPS = [
-    "Profile",
-    "Goals",
-    "Education",
-    "Experience",
-    "Preferences",
-    "Documents",
-    "Security",
-    "Review"
-];
+import { useTranslation } from "@/context/LanguageContext";
 
 interface StepIndicatorProps {
     currentStep: number;
 }
 
 export function StepIndicator({ currentStep }: StepIndicatorProps) {
+    const { t, dir } = useTranslation();
+
+    const STEPS = [
+        t.wizard.steps.basic,
+        t.wizard.steps.goal,
+        t.wizard.steps.education,
+        t.wizard.steps.work,
+        t.wizard.steps.preferences,
+        t.wizard.steps.documents,
+        t.wizard.steps.ai,
+        t.wizard.steps.review
+    ];
+
     const progress = (currentStep / (STEPS.length - 1)) * 100;
 
     return (
         <div className="w-full mb-16 relative pt-4">
-            <div className="flex justify-between items-center relative px-2">
+            <div className={cn("flex justify-between items-center relative px-2", dir === 'rtl' ? 'flex-row-reverse' : '')}>
                 {/* Background Line */}
                 <div className="absolute top-1/2 left-0 w-full h-1 bg-slate-200 dark:bg-slate-800 -translate-y-1/2 rounded-full" />
 
                 {/* Animated Progress Line */}
                 <motion.div
-                    className="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)] z-0"
+                    className={cn(
+                        "absolute top-1/2 h-1 bg-primary -translate-y-1/2 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)] z-0",
+                        dir === 'rtl' ? 'right-0' : 'left-0'
+                    )}
                     initial={{ width: 0 }}
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}

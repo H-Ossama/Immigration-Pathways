@@ -7,22 +7,22 @@ import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
 
 export function GlobeScene() {
     return (
-        <div className="w-full h-[280px] sm:h-[350px] md:h-[450px] lg:h-[550px] xl:h-[600px] relative cursor-grab active:cursor-grabbing overflow-hidden">
-            {/* Space Background - Smooth radial gradient */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(2,6,23,0.95)_0%,rgba(2,6,23,0.7)_35%,rgba(2,6,23,0.3)_55%,transparent_70%)] pointer-events-none" />
+        <div className="w-full h-[280px] sm:h-[350px] md:h-[450px] lg:h-[550px] xl:h-[600px] relative cursor-grab active:cursor-grabbing overflow-hidden rounded-3xl">
+            {/* Space Background - Theme-aware with smooth radial gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-slate-100/50 to-transparent dark:from-slate-950/80 dark:via-slate-900/40 dark:to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,transparent_40%,rgba(0,0,0,0.02)_70%)] dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.4)_0%,rgba(15,23,42,0.6)_35%,rgba(2,6,23,0.8)_55%,rgba(2,6,23,0.95)_80%)] pointer-events-none" />
 
-            {/* Soft Edge Fade - Makes the globe "float" with no hard edges */}
+            {/* Soft Edge Fade - Theme-aware to make the globe "float" seamlessly */}
             <div
                 className="absolute inset-0 pointer-events-none z-10"
                 style={{
                     background: `
-                        radial-gradient(ellipse 80% 80% at center, transparent 50%, white 100%),
-                        linear-gradient(to top, white 0%, transparent 15%),
-                        linear-gradient(to bottom, white 0%, transparent 15%),
-                        linear-gradient(to left, white 0%, transparent 10%),
-                        linear-gradient(to right, white 0%, transparent 10%)
+                        radial-gradient(ellipse 75% 75% at center, transparent 45%, var(--background) 100%),
+                        linear-gradient(to top, var(--background) 0%, transparent 12%),
+                        linear-gradient(to bottom, var(--background) 0%, transparent 12%),
+                        linear-gradient(to left, var(--background) 0%, transparent 8%),
+                        linear-gradient(to right, var(--background) 0%, transparent 8%)
                     `,
-                    mixBlendMode: 'normal'
                 }}
             />
 
@@ -52,8 +52,8 @@ export function GlobeScene() {
                 </Suspense>
             </Canvas>
 
-            {/* Subtle glow behind the globe */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-500/10 blur-[80px] rounded-full -z-10 pointer-events-none" />
+            {/* Subtle glow behind the globe - theme-aware */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-500/5 dark:bg-blue-500/15 blur-[100px] rounded-full -z-10 pointer-events-none" />
         </div>
     );
 }

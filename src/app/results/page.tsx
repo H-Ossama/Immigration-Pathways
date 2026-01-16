@@ -7,13 +7,16 @@ import { ResultsSummary } from "@/components/results/ResultsSummary";
 import { PathwayCard } from "@/components/results/PathwayCard";
 import { ActionButtons } from "@/components/results/ActionButtons";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, RefreshCw, Sparkles, Globe } from "lucide-react";
+import { ArrowLeft, RefreshCw, Sparkles, Globe, Loader2 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "@/context/LanguageContext";
+import { cn } from "@/lib/utils";
 
 export default function ResultsPage() {
     const router = useRouter();
-    const { results, resetForm } = useFormStore();
+    const { results, resetForm, formData, setIsLoading, setError, setResults, isLoading } = useFormStore();
+    const { t, language, dir, setLanguage } = useTranslation();
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
@@ -46,12 +49,44 @@ export default function ResultsPage() {
         return () => clearInterval(interval);
     }, [results, router]);
 
-    if (!results) return null;
-
     const handleStartOver = () => {
         resetForm();
         router.push("/start");
     };
+
+    const handleReTranslate = async (newLang: string) => {
+        setLanguage(newLang as any);
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetch("/api/generate-pathways", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    language: newLang
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to translate pathways");
+            }
+
+            const data = await response.json();
+            setResults(data);
+        } catch (err: any) {
+            setError(err.message || "An unexpected error occurred during translation");
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    if (!results) return null;
 
     return (
         <div className="min-h-screen bg-white dark:bg-[#020617] py-12 md:py-24 relative overflow-hidden">
@@ -70,16 +105,33 @@ export default function ResultsPage() {
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold animate-bounce text-sm">
                         <Sparkles className="h-4 w-4" />
-                        <span>Pathways Generated Successfully!</span>
+                        <span>{t.results.generatedSuccess}</span>
                     </div>
 
-                    <h1 className="text-4xl md:text-7xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:from-white dark:to-white/60">
-                        Your Global <span className="text-primary italic">Roadmap</span>
+                    <h1 className={cn("text-4xl md:text-7xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:from-white dark:to-white/60", dir === 'rtl' ? 'flex flex-row-reverse gap-4' : '')}>
+                        {t.results.title} <span className="text-primary italic">{t.results.roadmap}</span>
                     </h1>
 
                     <p className="text-muted-foreground text-base md:text-lg font-medium max-w-2xl px-4">
-                        Our AI has analyzed your profile and found the most promising immigration options tailored specifically for your goals.
+                        {t.results.description}
                     </p>
+
+                    {/* Language-specific re-generation options */}
+                    <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+                        {['en', 'fr', 'ar'].map((l) => (
+                            <Button
+                                key={l}
+                                variant={language === l ? "secondary" : "outline"}
+                                size="sm"
+                                onClick={() => handleReTranslate(l)}
+                                disabled={isLoading}
+                                className={cn("rounded-full h-9 px-4 font-bold border-primary/20", language === l ? "bg-primary/10 text-primary border-primary/30" : "")}
+                            >
+                                {isLoading && language === l ? <Loader2 className="h-3 w-3 animate-spin mr-2" /> : <Globe className="h-3 w-3 mr-2" />}
+                                {l === 'en' ? 'Translate to English' : l === 'fr' ? 'Traduire en Français' : 'ترجمة إلى العربية'}
+                            </Button>
+                        ))}
+                    </div>
                 </motion.div>
 
                 {/* Results Hero / Summary Card */}
@@ -93,23 +145,23 @@ export default function ResultsPage() {
                         {/* Summary Gradient Glow */}
                         <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 blur-[100px] rounded-full group-hover:bg-primary/30 transition-colors" />
 
-                        <div className="relative z-10 flex flex-col md:flex-row gap-8 lg:gap-16 items-center">
-                            <div className="flex-1 space-y-6">
+                        <div className={cn("relative z-10 flex flex-col md:flex-row gap-8 lg:gap-16 items-center", dir === 'rtl' ? 'md:flex-row-reverse' : '')}>
+                            <div className={cn("flex-1 space-y-6", dir === 'rtl' ? 'text-right' : 'text-left')}>
                                 <ResultsSummary results={results} />
-                                <div className="hidden md:flex items-center gap-4 text-xs font-bold text-muted-foreground uppercase tracking-widest pl-2">
+                                <div className={cn("hidden md:flex items-center gap-4 text-xs font-bold text-muted-foreground uppercase tracking-widest pl-2", dir === 'rtl' ? 'flex-row-reverse' : '')}>
                                     <Globe className="h-4 w-4 text-primary" />
-                                    <span>Verified AI Generation • Official Sources Linked</span>
+                                    <span>{t.results.verified} • {t.results.sources}</span>
                                 </div>
                             </div>
 
                             <div className="w-full md:w-[280px] lg:w-[320px] flex flex-col gap-3">
-                                <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 mb-2">
-                                    <p className="text-[10px] uppercase tracking-widest font-black text-primary mb-1">Total Options</p>
-                                    <p className="text-4xl font-black">{results.pathways.length} Pathways</p>
+                                <div className={cn("p-4 rounded-2xl bg-primary/5 border border-primary/10 mb-2", dir === 'rtl' ? 'text-right' : 'text-left')}>
+                                    <p className="text-[10px] uppercase tracking-widest font-black text-primary mb-1">{t.results.totalOptions}</p>
+                                    <p className="text-4xl font-black">{results.pathways.length} {t.results.optionsCount}</p>
                                 </div>
                                 <ActionButtons results={results} />
                                 <Button variant="ghost" size="sm" onClick={handleStartOver} className="text-muted-foreground hover:bg-primary/5 rounded-xl font-bold py-6 w-full">
-                                    <RefreshCw className="h-4 w-4 mr-2" /> Start New Search
+                                    <RefreshCw className="h-4 w-4 mr-2" /> {t.results.startOver}
                                 </Button>
                             </div>
                         </div>
@@ -120,7 +172,7 @@ export default function ResultsPage() {
                 <div className="max-w-4xl mx-auto space-y-12">
                     <div className="flex items-center gap-4 mb-4">
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground/60 whitespace-nowrap">Explore Your Options</h2>
+                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground/60 whitespace-nowrap">{t.results.exploreOptions}</h2>
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                     </div>
 
@@ -148,22 +200,21 @@ export default function ResultsPage() {
                 >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full" />
 
-                    <span className="text-4xl md:text-6xl text-primary opacity-20 font-serif absolute top-8 left-8">"</span>
+                    <span className={cn("text-4xl md:text-6xl text-primary opacity-20 font-serif absolute top-8", dir === 'rtl' ? 'right-8 rotate-180' : 'left-8')}>"</span>
                     <h3 className="text-xl md:text-3xl font-bold italic text-foreground leading-snug relative z-10">
-                        {results.summary.split('.')[0]}. The journey of a thousand miles begins with this step.
+                        {results.summary.split('.')[0]}. {t.results.quote}
                     </h3>
 
                     <div className="h-px w-24 bg-primary/30 mx-auto" />
 
                     <div className="space-y-4">
-                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-black opacity-60 leading-relaxed">
-                            AI-generated roadmap for informational purposes. <br className="hidden md:block" />
-                            Always cross-reference with official migration portals.
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-black opacity-60 leading-relaxed px-4">
+                            {t.results.disclaimer}
                         </p>
 
                         <Button variant="outline" asChild className="rounded-full px-10 h-12 border-primary/20 hover:bg-primary/5 hover:border-primary transition-all">
                             <button onClick={() => router.push("/")}>
-                                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
+                                {dir === 'rtl' ? <RefreshCw className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />} {t.results.backHome}
                             </button>
                         </Button>
                     </div>

@@ -38,7 +38,7 @@ export default function LandingPage() {
           <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-teal-500/10 blur-[120px] rounded-full animate-float" style={{ animationDelay: '-2s' }} />
         </div>
 
-        <div className="container px-4 md:px-6 relative z-10">
+        <div className="container max-w-7xl mx-auto px-4 md:px-6 relative z-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
             <div className={`flex flex-col space-y-8 ${dir === 'rtl' ? 'text-right' : 'text-left'} max-w-2xl`}>
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium transition-colors hover:bg-primary/10 w-fit">
@@ -91,7 +91,7 @@ export default function LandingPage() {
       <section id="how-it-works" className="w-full py-24 bg-slate-50 dark:bg-[#020617] relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 blur-[120px] rounded-full -z-10" />
 
-        <div className="container px-4 md:px-6">
+        <div className="container max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 dark:from-white dark:to-white/60">
               {t.howItWorks.title} <span className="text-primary italic">{t.howItWorks.future}</span>
@@ -141,7 +141,7 @@ export default function LandingPage() {
 
       {/* Features Section */}
       <section className="w-full py-24">
-        <div className="container px-4 md:px-6">
+        <div className="container max-w-7xl mx-auto px-4 md:px-6">
           <div className="grid gap-16 lg:grid-cols-2 items-center">
             <div className={`space-y-8 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}>
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
@@ -188,7 +188,7 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="w-full py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/5 -z-10" />
-        <div className="container px-4 md:px-6">
+        <div className="container max-w-7xl mx-auto px-4 md:px-6">
           <div className="glass dark:glass-dark rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden group">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

@@ -5,15 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Copy, Download, Save, Check, Loader2 } from "lucide-react";
 import { AIResponse } from "@/types";
 import { jsPDF } from "jspdf";
+import { useTranslation } from "@/context/LanguageContext";
+import { cn } from "@/lib/utils";
 
 export function ActionButtons({ results }: { results: AIResponse }) {
     const [isCopying, setIsCopying] = useState(false);
     const [isExporting, setIsExporting] = useState(false);
+    const { t, dir } = useTranslation();
 
     const handleCopy = async () => {
         setIsCopying(true);
         const text = `
-Immigration Pathways Summary:
+${t.results.title}:
 ${results.summary}
 
 ${results.pathways.map((p, i) => `
@@ -27,8 +30,7 @@ ${p.steps.map(s => `- ${s}`).join('\n')}
 
         try {
             await navigator.clipboard.writeText(text);
-            // Fallback if toast is not available
-            alert("Results copied to clipboard!");
+            alert(dir === 'rtl' ? "تم نسخ النتائج إلى الحافظة!" : "Results copied to clipboard!");
         } catch (err) {
             console.error("Failed to copy", err);
         } finally {
@@ -87,18 +89,18 @@ ${p.steps.map(s => `- ${s}`).join('\n')}
     };
 
     return (
-        <div className="flex flex-wrap gap-3 items-center">
-            <Button variant="outline" size="sm" onClick={handleCopy} disabled={isCopying}>
-                {isCopying ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
-                Copy results
+        <div className={cn("flex flex-wrap gap-3 items-center", dir === 'rtl' ? 'flex-row-reverse' : '')}>
+            <Button variant="outline" size="sm" onClick={handleCopy} disabled={isCopying} className="rounded-xl px-4 font-bold border-primary/20">
+                {isCopying ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Copy className={cn("h-4 w-4 mr-2", dir === 'rtl' ? 'ml-2 mr-0' : '')} />}
+                {t.results.copy}
             </Button>
-            <Button variant="outline" size="sm" onClick={handleDownloadPDF} disabled={isExporting}>
-                {isExporting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Download className="h-4 w-4 mr-2" />}
-                Download PDF
+            <Button variant="outline" size="sm" onClick={handleDownloadPDF} disabled={isExporting} className="rounded-xl px-4 font-bold border-primary/20">
+                {isExporting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Download className={cn("h-4 w-4 mr-2", dir === 'rtl' ? 'ml-2 mr-0' : '')} />}
+                {t.results.export}
             </Button>
-            <Button variant="outline" size="sm">
-                <Save className="h-4 w-4 mr-2" />
-                Save pathway
+            <Button variant="outline" size="sm" className="rounded-xl px-4 font-bold border-primary/20">
+                <Save className={cn("h-4 w-4 mr-2", dir === 'rtl' ? 'ml-2 mr-0' : '')} />
+                {t.results.save}
             </Button>
         </div>
     );

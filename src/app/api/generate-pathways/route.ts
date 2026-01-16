@@ -25,17 +25,28 @@ const RESPONSE_FORMAT = `{
 
 import { DEFAULT_FREE_KEY } from "@/lib/constants";
 
-async function callAI(formData: any, apiKey: string, provider: string, model: string) {
+async function callAI(formData: any, apiKey: string, provider: string, model: string, language: string) {
     const finalApiKey = apiKey || DEFAULT_FREE_KEY;
-    const finalModel = model || 'gemini-2.5-flash';
+    const finalModel = model || 'gemini-2.0-flash';
     const finalProvider = provider || 'google';
+    const finalLanguage = language || 'en';
+
+    const languageMap: Record<string, string> = {
+        'en': 'English',
+        'fr': 'French',
+        'ar': 'Arabic'
+    };
+
+    const targetLanguage = languageMap[finalLanguage] || 'English';
 
     const userMessage = `
 User Profile:
 ${JSON.stringify(formData, null, 2)}
 
 Task:
-Suggest the best immigration pathways for this user to move abroad based on their goal (study/work/etc.). Provide 3–6 pathways, each with steps, requirements, estimated time/cost, and official links. Format in strict JSON.
+Suggest the best immigration pathways for this user to move abroad based on their goal (study/work/etc.). Provide 3–6 pathways, each with steps, requirements, estimated time/cost, and official links. 
+
+CRITICAL: You MUST write the ENTIRE response in ${targetLanguage}. This includes all titles, descriptions, steps, and warnings.
 
 AI Response Format (STRICT JSON)
 Must return this exact JSON shape:
@@ -112,17 +123,17 @@ ${RESPONSE_FORMAT}
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { apiKey, ...formData } = body;
+        const { apiKey, language, ...formData } = body;
 
         let results;
         try {
             // First attempt
-            results = await callAI(formData, apiKey, body.aiProvider, body.aiModel);
+            results = await callAI(formData, apiKey, body.aiProvider, body.aiModel, language);
         } catch (err: any) {
             console.warn("First attempt failed, retrying...", err.message);
             // Automatic retry once
             try {
-                results = await callAI(formData, apiKey, body.aiProvider, body.aiModel);
+                results = await callAI(formData, apiKey, body.aiProvider, body.aiModel, language);
             } catch (retryErr: any) {
                 return NextResponse.json(
                     { message: `AI Error: ${retryErr.message}` },

@@ -4,7 +4,6 @@
   <img src="public/hero.png" width="150" alt="Immigration Pathways Hero Image">
 </p>
 
-<h1 align="center">Immigration Pathways</h1>
 
 **Immigration Pathways** is a production-ready web application designed to help individuals discover the best immigration options based on their unique professional and educational profiles. Using AI-powered analysis, the app generates detailed, actionable migration plans with official government sources.
 

@@ -7,10 +7,12 @@ import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { useTranslation } from '@/context/LanguageContext';
 
+import { LanguageSwitcher } from './LanguageSwitcher';
+
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { theme, setTheme } = useTheme();
-    const { language, setLanguage, t, dir } = useTranslation();
+    const { language, t } = useTranslation();
     const [mounted, setMounted] = useState(false);
 
     // Prevent hydration mismatch
@@ -20,11 +22,6 @@ export function Header() {
 
     const toggleTheme = () => {
         setTheme(theme === 'dark' ? 'light' : 'dark');
-    };
-
-    const toggleLanguage = () => {
-        const nextLang = language === 'en' ? 'fr' : language === 'fr' ? 'ar' : 'en';
-        setLanguage(nextLang);
     };
 
     if (!mounted) {
@@ -69,19 +66,7 @@ export function Header() {
                     </Link>
 
                     <div className="flex items-center gap-2 border-l border-white/10 pl-6 ml-2">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="rounded-full hover:bg-primary/10 transition-colors"
-                            onClick={toggleLanguage}
-                            title="Switch Language"
-                        >
-                            <Globe className="h-5 w-5" />
-                            <span className="sr-only">Language</span>
-                            <span className="absolute -top-1 -right-1 text-[10px] font-bold bg-primary text-white rounded-full h-4 w-4 flex items-center justify-center uppercase">
-                                {language}
-                            </span>
-                        </Button>
+                        <LanguageSwitcher />
 
                         <Button
                             variant="ghost"
@@ -102,17 +87,7 @@ export function Header() {
 
                 {/* Mobile Controls */}
                 <div className="flex md:hidden items-center gap-2">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-full"
-                        onClick={toggleLanguage}
-                    >
-                        <Globe className="h-5 w-5" />
-                        <span className="text-[10px] absolute -top-1 -right-1 bg-primary text-white rounded-full h-4 w-4 flex items-center justify-center uppercase font-bold">
-                            {language}
-                        </span>
-                    </Button>
+                    <LanguageSwitcher />
 
                     <Button
                         variant="ghost"
